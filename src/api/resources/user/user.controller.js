@@ -84,6 +84,7 @@ export default {
         }
     },
     async test(req, res) {
-        return res.json({ req: req.user });
+        console.log(req);
+        return res.json({ req: req.usuarioActual, mensaje: 'ok' });
     }
 }

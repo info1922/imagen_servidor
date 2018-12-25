@@ -7,6 +7,8 @@ import passport from 'passport';
 import { configureJWTStrategy } from './passport-jwt';
 import User from '../api/resources/user/user.model';
 import { devConfig } from '../config/env/development';
+import { configureGoogleStrategy } from './passport-google';
+import session from 'express-session';
 
 
 export const setGlobalMiddleware = (app) => {
@@ -17,17 +19,21 @@ export const setGlobalMiddleware = (app) => {
     app.use(bodyParser.json());
     app.use(cors());
 
-    // app.use(session({
-    //     secret: devConfig.secret,
-    //     resave: false,
-    //     saveUninitialized: true
-    // }));
+    app.use(session({
+        secret: devConfig.secret,
+        resave: true,
+        saveUninitialized: true
+    }));
 
     app.use(passport.initialize({ userProperty: 'usuarioActual' }));
-    // app.use(passport.session());
+
+    app.use(passport.session());
+
     configureJWTStrategy();
 
-    // req.session.user = {userId}
+    configureGoogleStrategy();
+
+    // Guarda el usuario en la sesion
     passport.serializeUser((user, done) => {
         done(null, user.id);
     });
