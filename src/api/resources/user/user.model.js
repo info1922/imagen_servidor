@@ -10,12 +10,14 @@ const userSchema = new Schema({
     nombre: { type: String, required: false },
     imagen: { type: String, required: false },
     role: { default: USER_ROLE, required: true, type: Number },
-    google: { email: String, id: String, displayName: String, token: String },
+    google: { email: String, id: String, displayName: String, photo: String, token: String },
     twitter: { email: String, id: String, displayName: String, token: String },
     albums: [{ type: Schema.Types.ObjectId, ref: 'Album', required: false }]
         // facebook: { email: String, id: String, displayName: String, token: String }
 }, {
     timestamps: true
 });
+
+
 
 export default mongoose.model('User', userSchema);
